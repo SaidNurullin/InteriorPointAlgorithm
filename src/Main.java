@@ -51,6 +51,11 @@ public class Main {
      * @param accuracy integer number representing the number of decimal places
      */
     public static void printAnswer(Matrix x, double answer, int accuracy) {
+        System.out.println("(accuracy = " + accuracy + ")");
+        for (int i; i < x.getRows(); i++) {
+            System.out.println("X" + i + " = " + x.getElement(i, 0));
+        }
+        System.out.println("z = " + answer);
     }
 
     public static void main(String[] args) {
