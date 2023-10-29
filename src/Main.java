@@ -9,7 +9,12 @@ public class Main {
      * @return the negative component of cp having the largest absolute value
      */
     public static double findNu(Matrix cp) {
-        return 0;
+        double result = 0.0;
+        for (int i = 0; i < cp.getRows(); i++) {
+            result = Math.min(result, cp.getElement(i, 0));
+        }
+
+        return result;
     }
 
     /**
