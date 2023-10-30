@@ -31,7 +31,7 @@ public class Main {
      *
      */
     public static Matrix chooseInteriorPoint(Matrix constraintsMatrix, Matrix rightNumbers){
-        return multiply( multiply (transpose(constraintsMatrix), (multiply(transpose(constraintsMatrix),constraintsMatrix)).inverse() ) , rightNumbers);
+        return Matrix.multiply( Matrix.multiply (constraintsMatrix.transpose(), (Matrix.multiply(constraintsMatrix.transpose(),constraintsMatrix)).inverse() ) , rightNumbers);
     }
 
     /**
