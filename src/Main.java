@@ -54,8 +54,13 @@ public class Main {
     public static void main(String[] args) {
         Scanner in = new Scanner(System.in);
 
-        System.out.println("Is it max or min problem? (0 for min, 1 for max)");
+        System.out.println("Important: Inputs are considered for canonical form of the Linear Programming Problem\nIs it max or min problem? (0 for min, 1 for max)");
         int typeOfProblem = in.nextInt();
+        System.out.println("\nExample: min Z = -2X1 + X2\nSubject: X1 - X2 <= 15\n         X2 <= 15\n         X1, X2 >= 0");
+        System.out.println("\nIn Canonical Form:\nmin Z = -2X1 + X2 + 0S1 + 0S2\nSubject: X1 - X2 + S1 + 0S2 = 15\n         0X1 + X2 + 0S1 + S2 = 15\n");
+        System.out.println("Number of variables in the objective function is: 4\nNumber of constraints is: 2\nVector of coefficients of objective function - C is: -2 1 0 0");
+        System.out.println("Matrix of coefficients of constraint function - A is: 1 -1 1 0\n                                                      0 1 0 1");
+        System.out.println("Vector of right-hand side numbers - b is: 15 15\nThe approximation accuracy e.g: 20\nCoordinates of the interior point X e.g: 10 2 7 13\nYour turn :)\n");
         System.out.println("Enter the number of variables in the objective function:");
         int numOfVariables = in.nextInt();
         System.out.println("Enter the number of constraints:");
@@ -130,13 +135,27 @@ public class Main {
                 Matrix A_ = Matrix.multiply(constraintsMatrix, D);
                 Matrix C_ = Matrix.multiply(D, coefficients);
                 Matrix inv = Matrix.multiply(A_, A_.transpose()).inverse();
+                for (int i = 0; i < inv.getRows(); i++){
+                    for(int k = 0; k < inv.getColumns(); k++){
+                        if(inv.getElement(i, k) == Double.POSITIVE_INFINITY ||
+                                Double.isNaN(inv.getElement(i, k)) || inv.getElement(i, k) == Double.NEGATIVE_INFINITY){
+                            System.out.println("The method is not applicable!");
+                            return;
+                        }
+                    }
+                }
                 Matrix m = Matrix.multiply(A_.transpose(), inv);
                 for (int i = 0; i < I.getColumns(); i++) {
                     I.setElement(i, i, 1);
                 }
                 Matrix P = I.subtract(Matrix.multiply(m, A_));
                 Matrix Cp = Matrix.multiply(P, C_);
+
                 nu = findNu(Cp);
+                if(nu == 0){
+                    System.out.println("The problem does not have solution!");
+                    return;
+                }
                 for (int i = 0; i < I.getColumns(); i++) {
                     I.setElement(i, i, alpha / nu);
                 }
