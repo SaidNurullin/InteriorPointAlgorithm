@@ -161,11 +161,14 @@ public class Main {
                 }
                 Matrix x_ = ones.add(Matrix.multiply(I, Cp));
                 x = Matrix.multiply(D, x_);
-                if(Matrix.multiply(coefficients.transpose(), x).getElement(0, 0) - answer < Math.pow(10, -1*accuracy)){
+                if(Math.abs(Matrix.multiply(coefficients.transpose(), x).getElement(0, 0) - answer) < Math.pow(10, -1*accuracy)){
                     answer = Matrix.multiply(coefficients.transpose(), x).getElement(0, 0);
                     break;
                 }
                 answer = Matrix.multiply(coefficients.transpose(), x).getElement(0, 0);
+            }
+            if(typeOfProblem == 0){
+                answer = -answer;
             }
             printAnswer(x, answer, accuracy);
         }
